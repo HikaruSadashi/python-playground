@@ -1,0 +1,28 @@
+- fix Flight init method constructor 
+- exceptions and in load data file
+- add - removed encoding='utf8' from open
+
+Tests passed:
+1
+2
+3 - exceptions
+4 
+5
+6 -
+7 -
+8 -
+9
+10 -
+11 -
+
+
+OBJECTIVE
+- fix tests 6
+
+
+========= Dump:
+
+For more tests need to finish Aviation file lmao
+
+Older objectives:
+- testing test 4 in aviation file

@@ -16,7 +16,7 @@ def equals (expected, student):
 #----- keep the code above this line uncommented ----------
 
 
-# # --------------- Test 1 - Airport methods ---------------
+# --------------- Test 1 - Airport methods ---------------
 
 # a1 = Airport("YXU", "London", "Canada","North America")
 # a2 = Airport("ABC", "Madrid", "Spain","Europe")
@@ -76,72 +76,73 @@ def equals (expected, student):
 
 # # --------------- Test 4 - loadData() ---------------
 
-# t1 = avi.loadData("airports.txt", flightsFileName, "countries.txt")
-# total = 0
-# for i in avi._allFlights:
-#     total += len(avi._allFlights[i])
+t1 = avi.loadData("airports.txt", flightsFileName, "countries.txt")
+total = 0
 
-# if t1 and len(avi._allAirports) == 37 and total == 60:
-#     print("Test 4 Passed. (loadData())")
-# else:
-#     print("Test 4 Failed. (loadData())")
+for i in avi._allFlights:
+    total += len(avi._allFlights[i])
 
-
-# # --------------- Test 5 - getAirportByCode() ---------------
-
-# avi.loadData("airports.txt", flightsFileName, "countries.txt")
-# t1 = avi.getAirportByCode("ORD")
-
-# if isinstance(t1, Airport) and t1.getCity() == "Chicago":
-#     print("Test 5 Passed. (getAirportByCode())")
-# else:
-#     print("Test 5 Failed. (getAirportByCode())")
+if t1 and len(avi._allAirports) == 37 and total == 60:
+    print("Test 4 Passed. (loadData())")
+else:
+    print("Test 4 Failed. (loadData())")
 
 
+# --------------- Test 5 - getAirportByCode() ---------------
 
-# # --------------- Test 6 - findAllCityFlights() ---------------
+avi.loadData("airports.txt", flightsFileName, "countries.txt")
+t1 = avi.getAirportByCode("ORD")
 
-# avi.loadData("airports.txt", flightsFileName, "countries.txt")
-# cf = avi.findAllCityFlights("Toronto")
-# cfs = ""
-# for f in cf:
-#     cfs += f.getFlightNumber() + " "
-# t1 = isinstance(cf,list) and len(cf) == 6
-# acodes = ['MCK533','QGC143','KPP582','CUN974','CFE916','AOK874 ']
-# total = 0
-# for a in acodes:
-#     if a in cfs:
-#         total += 1
-# t2 = total == 6
+if isinstance(t1, Airport) and t1.getCity() == "Chicago":
+    print("Test 5 Passed. (getAirportByCode())")
+else:
+    print("Test 5 Failed. (getAirportByCode())")
 
-# if t1 and t2:
-#     print("Test 6 Passed. (findAllCityFlights())")
-# else:
-#     print("Test 6 Failed. (findAllCityFlights())")
+
+
+# --------------- Test 6 - findAllCityFlights() ---------------
+
+avi.loadData("airports.txt", flightsFileName, "countries.txt")
+cf = avi.findAllCityFlights("Toronto")
+cfs = ""
+for f in cf:
+    cfs += f.getFlightNumber() + " "
+t1 = isinstance(cf,list) and len(cf) == 6
+acodes = ['MCK533','QGC143','KPP582','CUN974','CFE916','AOK874 ']
+total = 0
+for a in acodes:
+    if a in cfs:
+        total += 1
+t2 = total == 6
+
+if t1 and t2:
+    print("Test 6 Passed. (findAllCityFlights())")
+else:
+    print("Test 6 Failed. (findAllCityFlights())")
 
 
 # # --------------- Test 7 - findAllCountryFlights() ---------------
 
-# avi.loadData("airports.txt", flightsFileName, "countries.txt")
-# cf = avi.findAllCountryFlights("Brazil")
-# cfs = ""
-# for f in cf:
-#     cfs += f.getFlightNumber() + " "
-# t1 = isinstance(cf,list) and len(cf) == 4
-# acodes = ['YZF667','XGY802','MOO674','FFC468 ']
-# total = 0
-# for a in acodes:
-#     if a in cfs:
-#         total += 1
-# t2 = total == 4
+avi.loadData("airports.txt", flightsFileName, "countries.txt")
+cf = avi.findAllCountryFlights("Brazil")
+cfs = ""
+for f in cf:
+    cfs += f.getFlightNumber() + " "
+t1 = isinstance(cf,list) and len(cf) == 4
+acodes = ['YZF667','XGY802','MOO674','FFC468 ']
+total = 0
+for a in acodes:
+    if a in cfs:
+        total += 1
+t2 = total == 4
 
-# if t1 and t2:
-#     print("Test 7 Passed. (findAllCountryFlights())")
-# else:
-#     print("Test 7 Failed. (findAllCountryFlights())")
+if t1 and t2:
+    print("Test 7 Passed. (findAllCountryFlights())")
+else:
+    print("Test 7 Failed. (findAllCountryFlights())")
 
 
-# # --------------- Test 8 - findFlightBetween() ---------------
+# --------------- Test 8 - findFlightBetween() ---------------
 
 # avi.loadData("airports.txt", flightsFileName, "countries.txt")
 # f1 = avi.findFlightBetween(avi.getAirportByCode("PVG"), avi.getAirportByCode("YOW"))
@@ -157,14 +158,14 @@ def equals (expected, student):
 
 # # --------------- Test 9 - findFlightBetween() ---------------
 
-# avi.loadData("airports.txt", flightsFileName, "countries.txt")
-# f1 = avi.findFlightBetween(avi.getAirportByCode("LAX"), avi.getAirportByCode("MIA"))
-# t1 = isinstance(f1, set) and "CPT" in f1
+avi.loadData("airports.txt", flightsFileName, "countries.txt")
+f1 = avi.findFlightBetween(avi.getAirportByCode("LAX"), avi.getAirportByCode("MIA"))
+t1 = isinstance(f1, set) and "CPT" in f1
 
-# if t1:
-#     print("Test 9 Passed. (findFlightBetween())")
-# else:
-#     print("Test 9 Failed. (findFlightBetween())")
+if t1:
+    print("Test 9 Passed. (findFlightBetween())")
+else:
+    print("Test 9 Failed. (findFlightBetween())")
 
 
 
