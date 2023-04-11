@@ -84,42 +84,13 @@ class Aviation:
     # ============================
     def findAllCityFlights(self, city):
         flights = []
-        # print(self._allFlights) #Here though there is only 4 
-
-        # for key in self._allAirports:
-        #     airport = self._allAirports[key]
-        #     #print(airport.getCity())
-        #     #if airport.getCity().lower() == city.lower():
-        #     #if airport.getCity() == city:
-        #     if airport.getCity() == "Toronto":
-        #         #only checks if destination or whatever
-        #         for flight in self._allFlights[key]:
-        #             #print(airport)
-        #             flights.append(flight)
-
-        # ANOTHER:
 
         for key in self._allAirports:
-        #     airport = self._allAirports[key]
-
-        #     if airport.getCity() == city:
-
-        #         # Append any flights with same outCode
-        #         for flight in self._allFlights[key]:
-        #             flights.append(flight)
-
+    
             # Append any flights with same inCode
             for flight in self._allFlights[key]:
-                if flight.getDestination().getCity() == "Toronto":
-                    print(flight)
-                if flight.getOrigin().getCity() == "Toronto":
-                    print(flight)
-
-                # if flight.getDestination() == "":
-                #     flight.append(flights)
-
-            
-
+                if flight.getDestination().getCity() == "Toronto" or flight.getOrigin().getCity() == "Toronto":
+                    flights.append(flight)
 
         return flights
 
@@ -264,7 +235,7 @@ avi.loadData("airports.txt", flightsFileName, "countries.txt")
 
 cf = avi.findAllCityFlights("Toronto")
 
-#print(cf)
+print(cf)
 # 
 
 cfs = ""
