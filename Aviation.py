@@ -62,7 +62,15 @@ class Aviation:
             origObj = self._allAirports[origCode]
             destObj = self._allAirports[destCode]
             newFlight = Flight(no,origObj,destObj)
+            
+            
+            # WE DETECT 6 HERE so line detects
+            
             self._allFlights[origCode].append(newFlight)
+
+            #if origCode == "YYZ" or destCode == "YYZ":
+                #print("Toronto detected!!")
+                #print(newFlight)
         f.close()
 
         return True
@@ -76,11 +84,43 @@ class Aviation:
     # ============================
     def findAllCityFlights(self, city):
         flights = []
+        # print(self._allFlights) #Here though there is only 4 
+
+        # for key in self._allAirports:
+        #     airport = self._allAirports[key]
+        #     #print(airport.getCity())
+        #     #if airport.getCity().lower() == city.lower():
+        #     #if airport.getCity() == city:
+        #     if airport.getCity() == "Toronto":
+        #         #only checks if destination or whatever
+        #         for flight in self._allFlights[key]:
+        #             #print(airport)
+        #             flights.append(flight)
+
+        # ANOTHER:
+
         for key in self._allAirports:
-            airport = self._allAirports[key]
-            if airport.getCity() == city:
-                for flight in self._allFlights[key]:
-                    flights.append(flight)
+        #     airport = self._allAirports[key]
+
+        #     if airport.getCity() == city:
+
+        #         # Append any flights with same outCode
+        #         for flight in self._allFlights[key]:
+        #             flights.append(flight)
+
+            # Append any flights with same inCode
+            for flight in self._allFlights[key]:
+                if flight.getDestination().getCity() == "Toronto":
+                    print(flight)
+                if flight.getOrigin().getCity() == "Toronto":
+                    print(flight)
+
+                # if flight.getDestination() == "":
+                #     flight.append(flights)
+
+            
+
+
         return flights
 
     def findFlightByNo(self, flightNo):
@@ -225,12 +265,13 @@ avi.loadData("airports.txt", flightsFileName, "countries.txt")
 cf = avi.findAllCityFlights("Toronto")
 
 #print(cf)
+# 
 
 cfs = ""
 for f in cf:
     cfs += f.getFlightNumber() + " "
 
-#print(cfs) # MCK533 QGC143 KPP582 CFE916
+#print(cf) # MCK533 QGC143 KPP582 CFE916
 # Missing 2 light nums
 # CUN974
 # AOK874
