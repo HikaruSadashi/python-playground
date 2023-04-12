@@ -227,39 +227,45 @@ class Aviation:
                 flightCode = f.getFlightNumber()
                 
                 # Classifys which continent the origin is from based on the country
-                if origin_continent == "North America" or origin_continent == "South America":
-                    AmericasOrigin = True
-                if origin_continent == "Europe" or origin_continent == "Africa":
-                    EuropeAfricaOrigin = True
-                if origin_continent == "Australia" or origin_continent == "Asia":
-                    AsiaAustraliaOrigin = True
+                AmericasOrigin =  origin_continent == "North America" or origin_continent == "South America"
+                EuropeAfricaOrigin =  origin_continent == "Europe" or origin_continent == "Africa"
+                AsiaAustraliaOrigin = origin_continent == "Australia" or origin_continent == "Asia"
+                
 
                 # Classifys which continent the dest is from based on the country
-                if dest_continent == "North America" or dest_continent == "South America":
-                    AmericasDest = True
-                if dest_continent == "Europe" or dest_continent == "Africa":
-                    EuropeAfricaDest = True
-                if dest_continent == "Australia" or dest_continent == "Asia":
-                    AsiaAustraliaDest = True
+                AmericasDest =  dest_continent == "North America" or dest_continent == "South America"
+                EuropeAfricaDest =  dest_continent == "Europe" or dest_continent == "Africa"
+                AsiaAustraliaDest =  dest_continent == "Australia" or dest_continent == "Asia"
+                    
                 
                 if ocean == "Atlantic":
                     # Append flight if Atlantic
                     # print("Atlantic")/Reached here
 
-                    if AmericasOrigin and EuropeAfricaDest or AmericasDest and EuropeAfricaOrigin:
-                        
+                    if (AmericasOrigin and EuropeAfricaDest) or (AmericasDest and EuropeAfricaOrigin):
+
                         crossings.add(flightCode)
-                        print("FlightCode: " + flightCode)
-                        print("Origin: " + origin_continent)
-                        print("Dest: " + dest_continent)
-                        print(" ")
+
+                        # Debug code
+                        # print("FlightCode: " + flightCode)
+                        # print("Origin: " + origin_continent)
+                        # print("Dest: " + dest_continent)
+                        # print(" ")
                 
                 if ocean == "Pacific":
                     # not triggered, good
 
                     # Append flight if Pacific
-                    if Americas and AsiaAustralia:
+                    if (AmericasOrigin and AsiaAustraliaDest) or (AmericasDest and AsiaAustraliaOrigin):
                         crossings.add(flightCode)
+                        
+                        # # Debug code
+                        # print("FlightCode: " + flightCode)
+                        # print("Origin: " + origin_continent)
+                        # print("Dest: " + dest_continent)
+                        # print(" ")
+                    
+                    
                     
         if not crossings:
             return -1
@@ -472,7 +478,7 @@ def equals (expected, student):
 
 avi.loadData("airports.txt", flightsFileName, "countries.txt")
 
-res=avi.findFlightsAcross('Atlantic')
+res=avi.findFlightsAcross('Atlantic') #Tested pacific too
 #print(res) # Empty 
 
 if res == {'XJX595', 'LJC201', 'DAJ762', 'MDW532', 'YZF667', 'JAG578', 'JKQ130', 'JHW048', 'YFZ738', 'CUN974', 'NIA196', 'VKG041', 'VIP930', 'YOF338', 'USO770', 'USO771'}:
@@ -480,4 +486,6 @@ if res == {'XJX595', 'LJC201', 'DAJ762', 'MDW532', 'YZF667', 'JAG578', 'JKQ130',
 else:
     print("Test 11 Failed. (findFlightsAcross('Atlantic'))")
 
+# Passed?
+# But the printed ones wrong?
 
