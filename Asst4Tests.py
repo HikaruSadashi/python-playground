@@ -52,26 +52,27 @@ else:
 
 
 
-# # --------------- Test 3 - Exceptions ---------------
-# a1 = Airport("YXU", "London", "Canada","North America")
-# a2 = Airport("ABC", "Athens", "Greece","Europe")
-# t1 = not(avi.loadData("junk.txt", "stuff.txt","random name . nothing"))
-# t2 = len(avi._allAirports) == 0
-# t3 = t4 = False
-# try:
-#     Flight("PNT175", "Toronto", "New York")
-# except TypeError as e:
-#     if e.__str__().strip().lower() == "the origin and destination must be airport objects":
-#         t3 = True
-# try:
-#     t4 = Flight("12#$cv", a1, a2)
-# except TypeError as e:
-#     if e.__str__().strip().lower() == "the flight number format is incorrect":
-#         t4 = True
-# if t1 and t2 and t3 and t4:
-#     print("Test 3 Passed. (Exceptions)")
-# else:
-#     print("Test 3 Failed. (Exceptions)")
+# --------------- Test 3 - Exceptions ---------------
+a1 = Airport("YXU", "London", "Canada","North America")
+a2 = Airport("ABC", "Athens", "Greece","Europe")
+t1 = not(avi.loadData("junk.txt", "stuff.txt","random name . nothing"))
+t2 = len(avi._allAirports) == 0
+t3 = t4 = False
+try:
+    Flight("PNT175", "Toronto", "New York")
+except TypeError as e:
+    if e.__str__().strip().lower() == "the origin and destination must be airport objects":
+        t3 = True
+try:
+    t4 = Flight("12#$cv", a1, a2)
+except TypeError as e:
+    if e.__str__().strip().lower() == "the flight number format is incorrect":
+        t4 = True
+
+if t1 and t2 and t3 and t4:
+    print("Test 3 Passed. (Exceptions)")
+else:
+    print("Test 3 Failed. (Exceptions)")
 
 
 # # --------------- Test 4 - loadData() ---------------
