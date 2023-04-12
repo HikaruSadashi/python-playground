@@ -188,7 +188,7 @@ class Aviation:
     
     # Direct Flight(MTN376): PVG to YOW
 
-    # =================================================================================
+    
     def findReturnFlight(self, firstFlight):
 
         #print(type(firstFlight))
@@ -198,28 +198,77 @@ class Aviation:
                 return flight
         return -1
 
+    # for flight in self._allFlights.values():
+    #             for f in flight:
+    #                 origin_continent = f.getOrigin().getContinent()
+    #                 dest_continent = f.getDestination().getContinent()
+    #                 if origin_continent == "North America and South America" and dest_continent == "Europe and Africa":
+    #                     crossings.append(f)
+    #                 elif origin_continent == "Europe and Africa" and dest_continent == "North America and South America":
+    #                     crossings.append(f)
+    # =================================================================================
     def findFlightsAcross(self, ocean):
-        crossings = []
-        if ocean == "Atlantic":
-            for flight in self._allFlights.values():
-                for f in flight:
-                    origin_continent = f.getOrigin().getContinent()
-                    dest_continent = f.getDestination().getContinent()
-                    if origin_continent == "North America and South America" and dest_continent == "Europe and Africa":
-                        crossings.append(f)
-                    elif origin_continent == "Europe and Africa" and dest_continent == "North America and South America":
-                        crossings.append(f)
-        elif ocean == "Pacific":
-            for flight in self._allFlights.values():
-                for f in flight:
-                    origin_continent = f.getOrigin().getContinent()
-                    dest_continent = f.getDestination().getContinent()
-                    if origin_continent == "North America and South America" and dest_continent == "Asia and Australia":
-                        crossings.append(f)
-                    elif origin_continent == "Asia and Australia" and dest_continent == "North America and South America":
-                        crossings.append(f)
-        return crossings
+
+        crossings = set()
+        AmericasOrigin = False
+        AsiaAustraliaOrigin = False
+        EuropeAfricaOrigin = False
+
+        AmericasDest = False
+        AsiaAustraliaDest = False
+        EuropeAfricaDest = False
+
+        for flight in self._allFlights.values():
+
+            for f in flight:
+
+                origin_continent = f.getOrigin().getContinent()
+                dest_continent = f.getDestination().getContinent()
+                flightCode = f.getFlightNumber()
+                
+                # Classifys which continent the origin is from based on the country
+                if origin_continent == "North America" or origin_continent == "South America":
+                    AmericasOrigin = True
+                if origin_continent == "Europe" or origin_continent == "Africa":
+                    EuropeAfricaOrigin = True
+                if origin_continent == "Australia" or origin_continent == "Asia":
+                    AsiaAustraliaOrigin = True
+
+                # Classifys which continent the dest is from based on the country
+                if dest_continent == "North America" or dest_continent == "South America":
+                    AmericasDest = True
+                if dest_continent == "Europe" or dest_continent == "Africa":
+                    EuropeAfricaDest = True
+                if dest_continent == "Australia" or dest_continent == "Asia":
+                    AsiaAustraliaDest = True
+                
+                if ocean == "Atlantic":
+                    # Append flight if Atlantic
+                    # print("Atlantic")/Reached here
+
+                    if AmericasOrigin and EuropeAfricaDest or AmericasDest and EuropeAfricaOrigin:
+                        
+                        crossings.add(flightCode)
+                        print("FlightCode: " + flightCode)
+                        print("Origin: " + origin_continent)
+                        print("Dest: " + dest_continent)
+                        print(" ")
+                
+                if ocean == "Pacific":
+                    # not triggered, good
+
+                    # Append flight if Pacific
+                    if Americas and AsiaAustralia:
+                        crossings.add(flightCode)
+                    
+        if not crossings:
+            return -1
+        else:
+            return crossings
     
+    # Atlantic
+    # res == {'XJX595', 'LJC201', 'DAJ762', 'MDW532', 'YZF667', 'JAG578', 'JKQ130', 'JHW048', 'YFZ738', 'CUN974', 'NIA196', 'VKG041', 'VIP930', 'YOF338', 'USO770', 'USO771'}
+    # Set ^
 
     # def findFlightBetween(self, origAirport, destAirport):
     #     directFlights = self._allFlights[origAirport.getCode()]
@@ -359,6 +408,54 @@ class Aviation:
 
 # # --------------- Test 10 - findReturnFlight() ---------------
 
+# avi = Aviation()
+# flightsFileName = "flights.txt"
+
+# def equals (expected, student):
+#     expected = expected.replace(" ", "")
+#     expected = expected.replace("\t", "")
+#     expected = expected.lower()
+#     student = student.replace(" ", "")
+#     student = student.replace("\t", "")
+#     student = student.lower()
+#     return expected == student
+
+# # LOD619,MEX,LAX
+# # LOX618,LAX,MEX
+
+# # USO770,MEX,CPT
+# # USO771,CPT,MEX
+
+# #EKR896,SFO,YHZ
+
+# avi.loadData("airports.txt", flightsFileName, "countries.txt")
+
+# # Find a flight object to input
+# f1 = avi.findFlightByNo('LOD619') 
+# print(f1) 
+# #[Flight(LOD619): Mexico City -> Los Angeles [international]]
+
+# f2 = avi.findFlightByNo('USO770')
+# f3 = avi.findFlightByNo('EKR896')
+
+# # # First use of function here
+# t1 = avi.findReturnFlight(f1)
+# print(t1)
+
+# t1 = avi.findReturnFlight(t1)
+# t2 = avi.findReturnFlight(f2)
+# t2 = avi.findReturnFlight(t2)
+# t3 = avi.findReturnFlight(f3)
+
+# if f1 == t1 and f2 == t2 and t3 == -1:
+#     print("Test 10 Passed. (findReturnFlight())")
+# else:
+#     print("Test 10 Failed. (findReturnFlight())")
+
+
+
+# --------------- Test 11 - findFlightsAcross() ---------------
+
 avi = Aviation()
 flightsFileName = "flights.txt"
 
@@ -371,34 +468,16 @@ def equals (expected, student):
     student = student.lower()
     return expected == student
 
-# LOD619,MEX,LAX
-# LOX618,LAX,MEX
-
-# USO770,MEX,CPT
-# USO771,CPT,MEX
-
-#EKR896,SFO,YHZ
+# -----
 
 avi.loadData("airports.txt", flightsFileName, "countries.txt")
 
-# Find a flight object to input
-f1 = avi.findFlightByNo('LOD619') 
-print(f1) 
-#[Flight(LOD619): Mexico City -> Los Angeles [international]]
+res=avi.findFlightsAcross('Atlantic')
+#print(res) # Empty 
 
-f2 = avi.findFlightByNo('USO770')
-f3 = avi.findFlightByNo('EKR896')
-
-# # First use of function here
-t1 = avi.findReturnFlight(f1)
-print(t1)
-
-t1 = avi.findReturnFlight(t1)
-t2 = avi.findReturnFlight(f2)
-t2 = avi.findReturnFlight(t2)
-t3 = avi.findReturnFlight(f3)
-
-if f1 == t1 and f2 == t2 and t3 == -1:
-    print("Test 10 Passed. (findReturnFlight())")
+if res == {'XJX595', 'LJC201', 'DAJ762', 'MDW532', 'YZF667', 'JAG578', 'JKQ130', 'JHW048', 'YFZ738', 'CUN974', 'NIA196', 'VKG041', 'VIP930', 'YOF338', 'USO770', 'USO771'}:
+    print("Test 11 Passed. (findFlightsAcross('Atlantic'))")
 else:
-    print("Test 10 Failed. (findReturnFlight())")
+    print("Test 11 Failed. (findFlightsAcross('Atlantic'))")
+
+
