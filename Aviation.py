@@ -100,16 +100,15 @@ class Aviation:
         #     for flight in self._allFlights[key]:
         #         if flight.getFlightNo() == flightNo:
         #             return flight
-        flights = []
 
         for key in self._allAirports:
     
             # Append any flights with same inCode
             for flight in self._allFlights[key]:
                 if flight.getFlightNumber() == flightNo:
-                    flights.append(flight)
+                    return flight
                     
-        return flights
+        return -1
 
     # ============================
     def findAllCountryFlights(self, country):
@@ -155,10 +154,25 @@ class Aviation:
                 
         return flights
 
-    # Might have to regenerate
     def findFlightBetween(self, origAirport, destAirport):
-        if destAirport in self._allFlights[origAirport.getCode()]:
-            return f"Direct Flight({self._allFlights[origAirport.getCode()][destAirport.getIndex()].getFlightNo()}): {origAirport.getCode()} to {destAirport.getCode()}"
+        
+        directFlightDestinations = []
+        directFlights = []
+
+        # Check for direct flights in a list of flights with the given origin aiport key or code
+        for flight in self._allFlights[origAirport.getCode()]:
+            
+            #Add to a list if there is a direct flight
+            if flight.getDestination() == destAirport:
+                directFlightDestinations.append(flight.getDestination())
+                directFlight = flight
+        
+        #statement = destAirport in directFlights
+        #print(statement)
+        
+        if destAirport in directFlightDestinations:
+            return f"Direct Flight({directFlight.getFlightNumber()}): {origAirport.getCode()} to {destAirport.getCode()}"
+            #print("Interesting")
         else:
             connecting_airports = set()
             for flight in self._allFlights[origAirport.getCode()]:
@@ -171,9 +185,15 @@ class Aviation:
                 return connecting_airports
             else:
                 return -1
+    
+    # Direct Flight(MTN376): PVG to YOW
 
+    # =================================================================================
     def findReturnFlight(self, firstFlight):
-        for flight in self.allFlights[firstFlight.getDestination().getCode()]:
+
+        #print(type(firstFlight))
+
+        for flight in self._allFlights[firstFlight.getDestination().getCode()]:
             if flight.getDestination() == firstFlight.getOrigin():
                 return flight
         return -1
@@ -181,7 +201,7 @@ class Aviation:
     def findFlightsAcross(self, ocean):
         crossings = []
         if ocean == "Atlantic":
-            for flight in self.allFlights.values():
+            for flight in self._allFlights.values():
                 for f in flight:
                     origin_continent = f.getOrigin().getContinent()
                     dest_continent = f.getDestination().getContinent()
@@ -190,7 +210,7 @@ class Aviation:
                     elif origin_continent == "Europe and Africa" and dest_continent == "North America and South America":
                         crossings.append(f)
         elif ocean == "Pacific":
-            for flight in self.allFlights.values():
+            for flight in self._allFlights.values():
                 for f in flight:
                     origin_continent = f.getOrigin().getContinent()
                     dest_continent = f.getDestination().getContinent()
@@ -270,29 +290,115 @@ class Aviation:
 
 
 
-# --------------- Test 7 - findAllCountryFlights() ---------------
+# # --------------- Test 7 - findAllCountryFlights() ---------------
+
+# avi = Aviation()
+# flightsFileName = "flights.txt"
+
+# avi.loadData("airports.txt", flightsFileName, "countries.txt")
+# cf = avi.findAllCountryFlights("Brazil")
+
+# #print(cf)
+
+# cfs = ""
+
+# for f in cf:
+#     cfs += f.getFlightNumber() + " "
+# t1 = isinstance(cf,list) and len(cf) == 4
+# acodes = ['YZF667','XGY802','MOO674','FFC468 ']
+# total = 0
+# for a in acodes:
+#     if a in cfs:
+#         total += 1
+# t2 = total == 4
+
+# if t1 and t2:
+#     print("Test 7 Passed. (findAllCountryFlights())")
+# else:
+#     print("Test 7 Failed. (findAllCountryFlights())")
+
+# --------------- Test 8 - findFlightBetween() ---------------
+
+# avi = Aviation()
+# flightsFileName = "flights.txt"
+
+# def equals (expected, student):
+#     expected = expected.replace(" ", "")
+#     expected = expected.replace("\t", "")
+#     expected = expected.lower()
+#     student = student.replace(" ", "")
+#     student = student.replace("\t", "")
+#     student = student.lower()
+#     return expected == student
+
+# avi.loadData("airports.txt", flightsFileName, "countries.txt")
+
+# f1 = avi.findFlightBetween(avi.getAirportByCode("PVG"), avi.getAirportByCode("YOW"))
+# # -1
+# #print(f1)
+
+
+
+# f2 = avi.findFlightBetween(avi.getAirportByCode("LAX"), avi.getAirportByCode("DTW"))
+# # -1 (right output)
+# #print(f2)
+
+# #Custom code
+# f3 = avi.findFlightBetween(avi.getAirportByCode("LAX"), avi.getAirportByCode("DTW"))
+# # -1 (right output)
+# print(f3)
+
+# t1 = equals(f1, "Direct Flight(MTN376): PVG to YOW")
+# t2 = f2 == -1
+
+# if t1 and t2:
+#     print("Test 8 Passed. (findFlightBetween())")
+# else:
+#     print("Test 8 Failed. (findFlightBetween())")
+
+
+# # --------------- Test 10 - findReturnFlight() ---------------
 
 avi = Aviation()
 flightsFileName = "flights.txt"
 
+def equals (expected, student):
+    expected = expected.replace(" ", "")
+    expected = expected.replace("\t", "")
+    expected = expected.lower()
+    student = student.replace(" ", "")
+    student = student.replace("\t", "")
+    student = student.lower()
+    return expected == student
+
+# LOD619,MEX,LAX
+# LOX618,LAX,MEX
+
+# USO770,MEX,CPT
+# USO771,CPT,MEX
+
+#EKR896,SFO,YHZ
+
 avi.loadData("airports.txt", flightsFileName, "countries.txt")
-cf = avi.findAllCountryFlights("Brazil")
 
-#print(cf)
+# Find a flight object to input
+f1 = avi.findFlightByNo('LOD619') 
+print(f1) 
+#[Flight(LOD619): Mexico City -> Los Angeles [international]]
 
-cfs = ""
+f2 = avi.findFlightByNo('USO770')
+f3 = avi.findFlightByNo('EKR896')
 
-for f in cf:
-    cfs += f.getFlightNumber() + " "
-t1 = isinstance(cf,list) and len(cf) == 4
-acodes = ['YZF667','XGY802','MOO674','FFC468 ']
-total = 0
-for a in acodes:
-    if a in cfs:
-        total += 1
-t2 = total == 4
+# # First use of function here
+t1 = avi.findReturnFlight(f1)
+print(t1)
 
-if t1 and t2:
-    print("Test 7 Passed. (findAllCountryFlights())")
+t1 = avi.findReturnFlight(t1)
+t2 = avi.findReturnFlight(f2)
+t2 = avi.findReturnFlight(t2)
+t3 = avi.findReturnFlight(f3)
+
+if f1 == t1 and f2 == t2 and t3 == -1:
+    print("Test 10 Passed. (findReturnFlight())")
 else:
-    print("Test 7 Failed. (findAllCountryFlights())")
+    print("Test 10 Failed. (findReturnFlight())")
