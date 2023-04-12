@@ -476,16 +476,23 @@ def equals (expected, student):
 
 # -----
 
-avi.loadData("airports.txt", flightsFileName, "countries.txt")
+# avi.loadData("airports.txt", flightsFileName, "countries.txt")
 
-res=avi.findFlightsAcross('Atlantic') #Tested pacific too
-#print(res) # Empty 
+# res=avi.findFlightsAcross('Atlantic') #Tested pacific too
+# #print(res) # Empty 
 
-if res == {'XJX595', 'LJC201', 'DAJ762', 'MDW532', 'YZF667', 'JAG578', 'JKQ130', 'JHW048', 'YFZ738', 'CUN974', 'NIA196', 'VKG041', 'VIP930', 'YOF338', 'USO770', 'USO771'}:
-    print("Test 11 Passed. (findFlightsAcross('Atlantic'))")
-else:
-    print("Test 11 Failed. (findFlightsAcross('Atlantic'))")
+# if res == {'XJX595', 'LJC201', 'DAJ762', 'MDW532', 'YZF667', 'JAG578', 'JKQ130', 'JHW048', 'YFZ738', 'CUN974', 'NIA196', 'VKG041', 'VIP930', 'YOF338', 'USO770', 'USO771'}:
+#     print("Test 11 Passed. (findFlightsAcross('Atlantic'))")
+# else:
+#     print("Test 11 Failed. (findFlightsAcross('Atlantic'))")
 
 # Passed?
 # But the printed ones wrong?
 
+# # --------------- Test 12 - findFlightsAcross() ---------------
+avi.loadData("airports.txt", flightsFileName, "countries.txt")
+res=avi.findFlightsAcross('Pacific')
+if res == {'MTN376', 'QMG091', 'VDT680', 'CSY487', 'YOI104', 'TYV528', 'KPP582', 'CSX772', 'ERO171', 'PGY075', 'YVF322', 'EYS649'}:
+    print("Test 12 Passed. (findFlightsAcross('Pacific'))")
+else:
+    print("Test 12 Failed. (findFlightsAcross('Pacific'))")
