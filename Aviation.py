@@ -81,7 +81,7 @@ class Aviation:
         else:
             return -1
 
-    # ============================
+    
     def findAllCityFlights(self, city):
         flights = []
 
@@ -89,28 +89,70 @@ class Aviation:
     
             # Append any flights with same inCode
             for flight in self._allFlights[key]:
-                if flight.getDestination().getCity() == "Toronto" or flight.getOrigin().getCity() == "Toronto":
+                if flight.getDestination().getCity() == city or flight.getOrigin().getCity() == city:
                     flights.append(flight)
 
         return flights
 
+    # this one not tested?
     def findFlightByNo(self, flightNo):
-        for key in self._allAirports:
-            for flight in self._allFlights[key]:
-                if flight.getFlightNo() == flightNo:
-                    return flight
-        return -1
-
-    def findAllCountryFlights(self, country):
+        # for key in self._allAirports:
+        #     for flight in self._allFlights[key]:
+        #         if flight.getFlightNo() == flightNo:
+        #             return flight
         flights = []
+
         for key in self._allAirports:
+    
+            # Append any flights with same inCode
+            for flight in self._allFlights[key]:
+                if flight.getFlightNumber() == flightNo:
+                    flights.append(flight)
+                    
+        return flights
+
+    # ============================
+    def findAllCountryFlights(self, country):
+        #print(self._allFlights)
+
+        flights = []
+
+        #Iterate on every airport using keys from airport dict
+        for key in self._allAirports:
+
+            #get current airport
             airport = self._allAirports[key]
+
+            #if airport country is the one we are looking for
             if airport.getCountry() == country:
+
+                # look for flights with the same key
                 for flight in self._allFlights[key]:
                     flights.append(flight)
+
+            # do the same for continent here
             elif airport.getContinent() == country:
                 for flight in self._allFlights[key]:
                     flights.append(flight)
+
+
+
+
+            # ANOTHER IMPLEMENTION
+            for flight in self._allFlights[key]:
+
+                destination = flight.getDestination()
+                descontinent = destination.getContinent()
+                descountry = destination.getCountry()
+
+                if descountry == country or descontinent == country:
+                    flights.append(flight)
+            #     origin = flight.getOrigin()
+            #     origin.getContinent()
+            #     origin.getCountry()
+                
+                print(flights)
+                
         return flights
 
     # Might have to regenerate
@@ -227,38 +269,30 @@ class Aviation:
 #     print("Test 4 Failed. (loadData())")
 
 
-# --------------- Test 6 - findAllCityFlights() ---------------
+
+# --------------- Test 7 - findAllCountryFlights() ---------------
+
 avi = Aviation()
 flightsFileName = "flights.txt"
 
 avi.loadData("airports.txt", flightsFileName, "countries.txt")
+cf = avi.findAllCountryFlights("Brazil")
 
-cf = avi.findAllCityFlights("Toronto")
-
-print(cf)
-# 
+#print(cf)
 
 cfs = ""
+
 for f in cf:
     cfs += f.getFlightNumber() + " "
-
-#print(cf) # MCK533 QGC143 KPP582 CFE916
-# Missing 2 light nums
-# CUN974
-# AOK874
-
-t1 = isinstance(cf,list) and len(cf) == 6
-acodes = ['MCK533','QGC143','KPP582','CUN974','CFE916','AOK874 ']
-
+t1 = isinstance(cf,list) and len(cf) == 4
+acodes = ['YZF667','XGY802','MOO674','FFC468 ']
 total = 0
 for a in acodes:
     if a in cfs:
         total += 1
-t2 = total == 6
-
-#print(total) # 4
+t2 = total == 4
 
 if t1 and t2:
-    print("Test 6 Passed. (findAllCityFlights())")
+    print("Test 7 Passed. (findAllCountryFlights())")
 else:
-    print("Test 6 Failed. (findAllCityFlights())")
+    print("Test 7 Failed. (findAllCountryFlights())")
