@@ -25,7 +25,7 @@ class Category:
         self.name = name
 
     def add_item(self, item):
-        item.categories.append(self)  # Update the item's categories list
+        item.categories.append(self)  
 
 
 class Inventory:
