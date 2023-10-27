@@ -4,7 +4,7 @@ import time
 # Server address and port
 server_address = ('localhost', 12000)
 
-# Create a UDP socket
+# Create UDP socket
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 # Initialize the sequence number
@@ -17,7 +17,7 @@ total_pings = 10
 client_socket.settimeout(1.0)
 
 for i in range(1, total_pings + 1):
-    # Prepare the message
+    # Prepare message
     message = f'Ping {sequence_number} {time.time()}'
     
     try:
@@ -40,7 +40,7 @@ for i in range(1, total_pings + 1):
         # Handle timeout
         print('Request timed out')
     
-    # Increment the sequence number
+    # Increment sequence number
     sequence_number += 1
 
 # Close the socket
