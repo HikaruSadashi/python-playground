@@ -9,6 +9,9 @@ serverPort = 8080  # You can choose any available port you prefer
 serverSocket.bind(('', serverPort))
 serverSocket.listen(1)
 
+ip, port = serverSocket.getsockname()
+print(f'Server is running on IP address {ip} and port {port}')
+
 while True:
     # Establish the connection
     print('Ready to serve...')
@@ -16,10 +19,12 @@ while True:
 
     try:
         message = connectionSocket.recv(1024).decode()
-        filename = message.split()[1]
-        f = open(filename[1:])
+        filename = message.split()
+        filename = filename[1].replace("/", "")
+        print(filename)
+        f = open(filename, "r")
         outputdata = f.read()
-
+    
         # Send one HTTP header line into socket
         connectionSocket.send("HTTP/1.1 200 OK\r\n\r\n".encode())
 
